@@ -1,0 +1,1367 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SCP Lighting Design | Asesoría en Iluminación Industrial</title>
+    <meta name="description" content="Asesoría experta en diseño lumínico para minería e industria. Seguridad, eficiencia y precisión en cada proyecto. 17 años de experiencia en Chile.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300&display=swap" rel="stylesheet">
+
+    <style>
+        /* ── Reset ── */
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        /* ── Tokens ── */
+        :root {
+            --bg:          #060a10;
+            --bg2:         #090e18;
+            --bg3:         #0e1620;
+            --bg4:         #131f2e;
+            --gold:        #c8902a;
+            --gold-lt:     #e8b84b;
+            --gold-dim:    rgba(200,144,42,.14);
+            --gold-border: rgba(200,144,42,.30);
+            --txt:         #f0f4f8;
+            --txt2:        #7a8a9a;
+            --txt3:        #3a4a5a;
+            --border:      rgba(255,255,255,.07);
+            --shadow-gold: 0 0 40px rgba(200,144,42,.15);
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg);
+            color: var(--txt);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        img, video, svg { max-width: 100%; display: block; }
+
+        /* ── Container ── */
+        .wrap {
+            width: 100%;
+            max-width: 1240px;
+            margin: 0 auto;
+            padding: 0 1.25rem;
+        }
+        @media (min-width: 768px)  { .wrap { padding: 0 2rem; } }
+        @media (min-width: 1024px) { .wrap { padding: 0 3rem; } }
+
+        /* ══════════════════════════════════════
+           SCROLL PROGRESS BAR
+        ══════════════════════════════════════ */
+        #progress-bar {
+            position: fixed;
+            top: 0; left: 0;
+            height: 2px;
+            background: var(--gold);
+            z-index: 9999;
+            width: 0%;
+            transition: width .1s linear;
+        }
+
+        /* ══════════════════════════════════════
+           NAVIGATION
+        ══════════════════════════════════════ */
+        .nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 900;
+            padding: 1.4rem 0;
+            transition: padding .4s, background .4s, border-color .4s;
+            border-bottom: 1px solid transparent;
+        }
+        .nav.scrolled {
+            background: rgba(6,10,16,.96);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            padding: .9rem 0;
+            border-color: var(--border);
+        }
+
+        .nav-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: relative;
+        }
+
+        /* Logo */
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: .65rem;
+            text-decoration: none;
+            flex-shrink: 0;
+        }
+        .logo-mark { width: 38px; height: 38px; }
+        .logo-copy { display: flex; flex-direction: column; line-height: 1; }
+        .logo-name {
+            font-size: 1.05rem;
+            font-weight: 800;
+            letter-spacing: .18em;
+            color: var(--txt);
+        }
+        .logo-tagline {
+            font-size: .52rem;
+            font-weight: 500;
+            letter-spacing: .28em;
+            color: var(--gold);
+            text-transform: uppercase;
+            margin-top: 2px;
+        }
+
+        /* Hamburger */
+        .nav-burger {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 4px;
+        }
+        .nav-burger span {
+            display: block;
+            width: 23px;
+            height: 1.5px;
+            background: var(--txt);
+            transition: all .3s;
+            transform-origin: center;
+        }
+        .nav-burger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+        .nav-burger.open span:nth-child(2) { opacity: 0; }
+        .nav-burger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+        /* Links */
+        .nav-links {
+            display: none;
+            list-style: none;
+            flex-direction: column;
+            position: absolute;
+            top: 100%;
+            left: 0; right: 0;
+            background: rgba(6,10,16,.98);
+            backdrop-filter: blur(18px);
+            padding: 1.25rem 1.25rem;
+            border-bottom: 1px solid var(--border);
+            gap: 0;
+        }
+        .nav-links.open { display: flex; }
+        .nav-links a {
+            display: block;
+            padding: .8rem 0;
+            font-size: .82rem;
+            font-weight: 500;
+            letter-spacing: .1em;
+            text-transform: uppercase;
+            color: var(--txt2);
+            text-decoration: none;
+            border-bottom: 1px solid var(--border);
+            transition: color .2s;
+        }
+        .nav-links li:last-child a { border-bottom: none; }
+        .nav-links a:hover { color: var(--txt); }
+
+        .nav-cta { display: none; }
+
+        @media (min-width: 768px) {
+            .nav-burger { display: none; }
+            .nav-links {
+                display: flex !important;
+                flex-direction: row;
+                position: static;
+                background: none;
+                backdrop-filter: none;
+                padding: 0;
+                border: none;
+                gap: 2rem;
+            }
+            .nav-links a { padding: 0; border: none; font-size: .78rem; }
+            .nav-cta {
+                display: inline-flex;
+                align-items: center;
+                gap: .5rem;
+                padding: .55rem 1.4rem;
+                border: 1px solid var(--gold-border);
+                border-radius: 2rem;
+                color: var(--gold);
+                font-family: inherit;
+                font-size: .75rem;
+                font-weight: 600;
+                letter-spacing: .12em;
+                text-transform: uppercase;
+                text-decoration: none;
+                background: transparent;
+                cursor: pointer;
+                transition: all .3s;
+            }
+            .nav-cta:hover { background: var(--gold); color: var(--bg); }
+        }
+
+        /* ══════════════════════════════════════
+           HERO
+        ══════════════════════════════════════ */
+        .hero {
+            position: relative;
+            min-height: 100dvh;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        /* Background layers */
+        .hero-bg {
+            position: absolute;
+            inset: 0;
+            background-image: url('imagen-fondo2.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+        /* Overlay: zona izquierda oscura para el texto, zona derecha translúcida para ver la imagen */
+        .hero-bg::before {
+            content: '';
+            position: absolute; inset: 0;
+            background:
+                linear-gradient(to right, rgba(6,10,16,.82) 30%, rgba(6,10,16,.25) 70%, rgba(6,10,16,.15) 100%),
+                linear-gradient(to top,   rgba(6,10,16,.45) 0%,  transparent 50%);
+        }
+        /* Sin capa adicional — dejamos que la imagen respire */
+        .hero-bg::after {
+            content: '';
+            position: absolute; inset: 0;
+            background: none;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            padding: 9rem 0 5rem;
+        }
+
+        .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: .75rem;
+            font-size: .68rem;
+            font-weight: 600;
+            letter-spacing: .32em;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 2rem;
+        }
+        .eyebrow::before {
+            content: '';
+            display: block;
+            width: 2rem;
+            height: 1px;
+            background: var(--gold);
+        }
+
+        .hero-title {
+            font-size: clamp(2.6rem, 7.5vw, 5.8rem);
+            font-weight: 800;
+            line-height: 1.04;
+            letter-spacing: -.025em;
+            margin-bottom: 1.5rem;
+            text-shadow: 0 2px 20px rgba(0,0,0,.7), 0 0 60px rgba(0,0,0,.5);
+        }
+        .hero-title .dim {
+            color: var(--txt2);
+            font-weight: 300;
+        }
+
+        .hero-sub {
+            font-size: clamp(.9rem, 2vw, 1.08rem);
+            color: var(--txt2);
+            max-width: 500px;
+            line-height: 1.75;
+            font-weight: 300;
+            margin-bottom: 2.75rem;
+        }
+
+        .hero-btns {
+            display: flex;
+            flex-direction: column;
+            gap: .875rem;
+            align-items: flex-start;
+        }
+        @media (min-width: 480px) { .hero-btns { flex-direction: row; } }
+
+        .btn-gold {
+            display: inline-flex;
+            align-items: center;
+            gap: .65rem;
+            padding: .9rem 1.9rem;
+            background: var(--gold);
+            color: var(--bg);
+            border: none;
+            border-radius: 3px;
+            font-family: inherit;
+            font-size: .82rem;
+            font-weight: 700;
+            letter-spacing: .1em;
+            text-transform: uppercase;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all .3s;
+            min-height: 48px;
+        }
+        .btn-gold:hover { background: var(--gold-lt); transform: translateY(-2px); box-shadow: 0 8px 28px rgba(200,144,42,.3); }
+
+        .btn-ghost {
+            display: inline-flex;
+            align-items: center;
+            gap: .65rem;
+            padding: .9rem 1.9rem;
+            background: transparent;
+            color: var(--txt);
+            border: 1px solid var(--border);
+            border-radius: 3px;
+            font-family: inherit;
+            font-size: .82rem;
+            font-weight: 500;
+            letter-spacing: .1em;
+            text-transform: uppercase;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all .3s;
+            min-height: 48px;
+        }
+        .btn-ghost:hover { border-color: var(--txt2); background: rgba(255,255,255,.04); }
+
+        /* Scroll indicator */
+        .scroll-hint {
+            position: absolute;
+            bottom: 2rem; left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: .5rem;
+            font-size: .6rem;
+            letter-spacing: .22em;
+            text-transform: uppercase;
+            color: var(--txt3);
+        }
+        .scroll-line {
+            width: 1px;
+            height: 2.5rem;
+            background: linear-gradient(to bottom, var(--gold), transparent);
+            animation: pulse-line 2s ease-in-out infinite;
+        }
+        @keyframes pulse-line {
+            0%,100% { opacity: .3; }
+            50%      { opacity: 1; }
+        }
+
+        /* ══════════════════════════════════════
+           SHARED SECTION STYLES
+        ══════════════════════════════════════ */
+        .section { padding: 5rem 0; }
+        @media (min-width: 768px)  { .section { padding: 7rem 0; } }
+        @media (min-width: 1024px) { .section { padding: 9rem 0; } }
+
+        .sec-label {
+            display: inline-flex;
+            align-items: center;
+            gap: .65rem;
+            font-size: .66rem;
+            font-weight: 600;
+            letter-spacing: .3em;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 1.1rem;
+        }
+        .sec-label::before {
+            content: '';
+            display: block;
+            width: 1.4rem; height: 1px;
+            background: var(--gold);
+        }
+
+        .sec-title {
+            font-size: clamp(1.8rem, 4vw, 3rem);
+            font-weight: 700;
+            letter-spacing: -.025em;
+            line-height: 1.1;
+            margin-bottom: 1.1rem;
+        }
+
+        .sec-desc {
+            font-size: clamp(.88rem, 1.8vw, 1.02rem);
+            color: var(--txt2);
+            max-width: 540px;
+            line-height: 1.8;
+            font-weight: 300;
+        }
+
+        .divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--gold-border) 50%, transparent);
+        }
+
+        /* ══════════════════════════════════════
+           SERVICES
+        ══════════════════════════════════════ */
+        .services { background: var(--bg2); position: relative; }
+        .services::before {
+            content: '';
+            position: absolute; top: 0; left: 0; right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--gold-border), transparent);
+        }
+
+        .services-head { margin-bottom: 3.5rem; }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5px;
+            background: var(--border);
+        }
+        @media (min-width: 768px) {
+            .services-grid { grid-template-columns: repeat(3,1fr); }
+        }
+
+        .svc-card {
+            background: var(--bg3);
+            padding: 2.5rem;
+            position: relative;
+            overflow: hidden;
+            transition: background .35s;
+        }
+        .svc-card::after {
+            content: '';
+            position: absolute; top: 0; left: 0; right: 0;
+            height: 2px;
+            background: var(--gold);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform .4s ease;
+        }
+        .svc-card:hover { background: var(--bg4); }
+        .svc-card:hover::after { transform: scaleX(1); }
+
+        .svc-icon {
+            width: 50px; height: 50px;
+            background: var(--gold-dim);
+            border: 1px solid var(--gold-border);
+            border-radius: 4px;
+            display: flex; align-items: center; justify-content: center;
+            margin-bottom: 1.75rem;
+            transition: background .3s;
+        }
+        .svc-card:hover .svc-icon { background: rgba(200,144,42,.24); }
+        .svc-icon svg { width: 22px; height: 22px; color: var(--gold); }
+
+        .svc-num {
+            font-size: .62rem;
+            font-weight: 600;
+            letter-spacing: .22em;
+            color: var(--txt3);
+            margin-bottom: .875rem;
+        }
+        .svc-name {
+            font-size: 1.15rem;
+            font-weight: 600;
+            line-height: 1.3;
+            margin-bottom: .8rem;
+        }
+        .svc-body {
+            font-size: .86rem;
+            color: var(--txt2);
+            line-height: 1.75;
+            font-weight: 300;
+        }
+        .svc-tags {
+            display: flex; flex-wrap: wrap; gap: .4rem;
+            margin-top: 1.5rem;
+        }
+        .tag {
+            font-size: .62rem;
+            font-weight: 500;
+            letter-spacing: .1em;
+            text-transform: uppercase;
+            padding: .28rem .7rem;
+            border: 1px solid var(--border);
+            border-radius: 2px;
+            color: var(--txt3);
+        }
+
+        /* ══════════════════════════════════════
+           EXPERIENCE
+        ══════════════════════════════════════ */
+        .experience { background: var(--bg); }
+
+        .exp-inner {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 4rem;
+        }
+        @media (min-width: 1024px) {
+            .exp-inner { grid-template-columns: 1fr 1fr; align-items: center; gap: 6rem; }
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2,1fr);
+            gap: 1.5px;
+            background: var(--border);
+            border: 1px solid var(--border);
+        }
+        .stat {
+            background: var(--bg3);
+            padding: 2rem 1.75rem;
+            text-align: center;
+        }
+        .stat-num {
+            font-size: clamp(2rem, 5vw, 3.2rem);
+            font-weight: 800;
+            color: var(--gold);
+            letter-spacing: -.03em;
+            line-height: 1;
+            margin-bottom: .4rem;
+        }
+        .stat-lbl {
+            font-size: .76rem;
+            color: var(--txt2);
+            line-height: 1.45;
+        }
+
+        .exp-body {
+            font-size: .9rem;
+            color: var(--txt2);
+            line-height: 1.85;
+            font-weight: 300;
+            margin-bottom: 1.1rem;
+        }
+
+        .chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: .75rem;
+            margin-top: 2rem;
+        }
+        .chip {
+            display: inline-flex;
+            align-items: center;
+            gap: .45rem;
+            padding: .45rem .95rem;
+            border: 1px solid var(--border);
+            border-radius: 2px;
+            font-size: .76rem;
+            font-weight: 500;
+            color: var(--txt2);
+            background: var(--bg3);
+        }
+        .chip svg { width: 13px; height: 13px; color: var(--gold); }
+
+        /* ══════════════════════════════════════
+           VALUE DIFFERENTIAL
+        ══════════════════════════════════════ */
+        .value { background: var(--bg2); }
+
+        .value-head { margin-bottom: 3.5rem; }
+
+        .value-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5px;
+            background: var(--border);
+        }
+        @media (min-width: 640px)  { .value-grid { grid-template-columns: repeat(2,1fr); } }
+        @media (min-width: 1024px) { .value-grid { grid-template-columns: repeat(4,1fr); } }
+
+        .val-item {
+            background: var(--bg3);
+            padding: 2.5rem 2rem;
+            transition: background .3s;
+        }
+        .val-item:hover { background: var(--bg4); }
+
+        .val-icon {
+            width: 44px; height: 44px;
+            color: var(--gold);
+            margin-bottom: 1.4rem;
+        }
+        .val-title { font-size: .98rem; font-weight: 600; margin-bottom: .65rem; }
+        .val-desc  { font-size: .84rem; color: var(--txt2); line-height: 1.75; font-weight: 300; }
+
+        /* ══════════════════════════════════════
+           PRICING
+        ══════════════════════════════════════ */
+        .pricing { background: var(--bg); }
+
+        .pricing-head { margin-bottom: 3.5rem; }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5px;
+            background: var(--border);
+        }
+        @media (min-width: 768px) { .pricing-grid { grid-template-columns: repeat(3,1fr); } }
+
+        .price-card {
+            background: var(--bg3);
+            padding: 2.5rem;
+            position: relative;
+            transition: background .3s;
+        }
+        .price-card.featured {
+            background: var(--bg4);
+            outline: 1px solid var(--gold-border);
+        }
+        .featured-badge {
+            display: none;
+        }
+        .price-card.featured .featured-badge {
+            display: block;
+            position: absolute;
+            top: -1px; left: 50%;
+            transform: translateX(-50%);
+            background: var(--gold);
+            color: var(--bg);
+            font-size: .58rem;
+            font-weight: 700;
+            letter-spacing: .2em;
+            text-transform: uppercase;
+            padding: .28rem 1rem;
+            white-space: nowrap;
+        }
+
+        .price-range {
+            font-size: .68rem;
+            font-weight: 600;
+            letter-spacing: .2em;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: .9rem;
+            margin-top: .4rem;
+        }
+        .price-from { font-size: .75rem; color: var(--txt3); margin-bottom: .2rem; }
+        .price-amount {
+            font-size: clamp(1.8rem, 4vw, 2.6rem);
+            font-weight: 800;
+            letter-spacing: -.025em;
+        }
+        .price-unit { font-size: .8rem; color: var(--txt3); font-weight: 400; margin-left: .1rem; }
+
+        .price-divider { height: 1px; background: var(--border); margin: 1.75rem 0; }
+
+        .price-features { list-style: none; display: flex; flex-direction: column; gap: .8rem; }
+        .price-features li {
+            display: flex; align-items: flex-start; gap: .7rem;
+            font-size: .84rem; color: var(--txt2); font-weight: 300; line-height: 1.45;
+        }
+        .price-features li::before {
+            content: '';
+            flex-shrink: 0;
+            width: 15px; height: 15px;
+            margin-top: 1px;
+            border-radius: 50%;
+            background: var(--gold-dim);
+            border: 1px solid var(--gold-border);
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2 6l3 3 5-5' stroke='%23c8902a' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+            background-size: 9px;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        .pricing-note {
+            margin-top: 2.5rem;
+            padding: 1.4rem 1.75rem;
+            border: 1px solid var(--border);
+            border-left: 3px solid var(--gold);
+            background: var(--bg3);
+            font-size: .84rem;
+            color: var(--txt2);
+            line-height: 1.65;
+            font-style: italic;
+        }
+
+        /* ══════════════════════════════════════
+           PORTFOLIO
+        ══════════════════════════════════════ */
+        .portfolio { background: var(--bg2); }
+
+        .port-head {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+        @media (min-width: 768px) {
+            .port-head { flex-direction: row; align-items: flex-end; justify-content: space-between; }
+            .port-head .sec-desc { max-width: 360px; margin-bottom: 0; }
+        }
+
+        .port-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5px;
+            background: var(--border);
+        }
+        @media (min-width: 640px)  { .port-grid { grid-template-columns: repeat(2,1fr); } }
+        @media (min-width: 1024px) { .port-grid { grid-template-columns: repeat(3,1fr); } }
+        @media (min-width: 1024px) { .port-grid .port-item:first-child { grid-column: span 2; } }
+
+        .port-item {
+            position: relative;
+            background: var(--bg3);
+            aspect-ratio: 4/3;
+            overflow: hidden;
+        }
+        @media (min-width: 1024px) { .port-grid .port-item:first-child { aspect-ratio: auto; min-height: 340px; } }
+
+        .port-placeholder {
+            width: 100%; height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--bg3) 0%, #0c1828 100%);
+        }
+        .port-placeholder svg { width: 44px; height: 44px; color: var(--txt3); opacity: .5; }
+
+        .port-badge {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: .6rem;
+            font-weight: 600;
+            letter-spacing: .25em;
+            text-transform: uppercase;
+            color: var(--txt3);
+            background: var(--bg);
+            padding: .35rem 1rem;
+            border: 1px solid var(--border);
+            white-space: nowrap;
+        }
+
+        /* ══════════════════════════════════════
+           CONTACT
+        ══════════════════════════════════════ */
+        .contact { background: var(--bg); }
+
+        .contact-inner {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 4rem;
+        }
+        @media (min-width: 1024px) { .contact-inner { grid-template-columns: 1fr 1.25fr; gap: 6rem; align-items: start; } }
+
+        .contact-desc { font-size: .9rem; color: var(--txt2); line-height: 1.85; font-weight: 300; margin-bottom: 2.25rem; }
+
+        .wa-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: .65rem;
+            padding: .9rem 1.75rem;
+            background: #25D366;
+            color: #fff;
+            border: none;
+            border-radius: 3px;
+            font-family: inherit;
+            font-size: .84rem;
+            font-weight: 600;
+            letter-spacing: .05em;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all .3s;
+            min-height: 48px;
+        }
+        .wa-btn:hover { background: #1db954; transform: translateY(-2px); }
+
+        /* Form */
+        .form { display: flex; flex-direction: column; gap: .9rem; }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: .9rem;
+        }
+        @media (min-width: 580px) { .form-row { grid-template-columns: 1fr 1fr; } }
+
+        .form-group { display: flex; flex-direction: column; gap: .45rem; }
+        .form-group label {
+            font-size: .7rem;
+            font-weight: 600;
+            letter-spacing: .15em;
+            text-transform: uppercase;
+            color: var(--txt2);
+        }
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: .85rem 1rem;
+            background: var(--bg3);
+            border: 1px solid var(--border);
+            border-radius: 3px;
+            font-family: inherit;
+            font-size: 1rem;         /* ≥16px — evita zoom en iOS */
+            color: var(--txt);
+            outline: none;
+            transition: border-color .2s;
+            box-sizing: border-box;
+            min-height: 44px;
+        }
+        .form-group input:focus,
+        .form-group textarea:focus { border-color: var(--gold); }
+        .form-group input::placeholder,
+        .form-group textarea::placeholder { color: var(--txt3); font-size: .9rem; }
+        .form-group textarea { min-height: 140px; resize: vertical; }
+
+        .form-note { font-size: .76rem; color: var(--txt3); font-style: italic; }
+
+        /* ══════════════════════════════════════
+           FOOTER
+        ══════════════════════════════════════ */
+        footer {
+            background: #040710;
+            border-top: 1px solid var(--border);
+            padding: 2.75rem 0;
+        }
+        .footer-inner {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+        @media (min-width: 768px) { .footer-inner { flex-direction: row; justify-content: space-between; align-items: center; } }
+
+        .footer-info { font-size: .8rem; color: var(--txt3); line-height: 1.75; margin-top: .75rem; }
+        .footer-info strong { display: block; color: var(--txt2); font-weight: 500; margin-bottom: .15rem; }
+        .footer-right { text-align: left; }
+        @media (min-width: 768px) { .footer-right { text-align: right; } }
+        .footer-copy { font-size: .72rem; color: var(--txt3); margin-top: .5rem; }
+
+        /* ══════════════════════════════════════
+           ANIMATIONS
+        ══════════════════════════════════════ */
+        .fi {
+            opacity: 0;
+            transform: translateY(22px);
+            transition: opacity .65s ease, transform .65s ease;
+        }
+        .fi.visible { opacity: 1; transform: translateY(0); }
+        .fi.d1 { transition-delay: .1s; }
+        .fi.d2 { transition-delay: .2s; }
+        .fi.d3 { transition-delay: .3s; }
+        .fi.d4 { transition-delay: .4s; }
+    </style>
+</head>
+<body>
+
+<!-- Progress bar -->
+<div id="progress-bar"></div>
+
+<!-- ══ NAVIGATION ══ -->
+<nav class="nav" id="nav">
+    <div class="wrap">
+        <div class="nav-inner">
+            <a href="#inicio" class="logo">
+                <svg class="logo-mark" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="3" y="3" width="32" height="32" stroke="#c8902a" stroke-width="1"/>
+                    <path d="M9 19 L19 9 L29 19" stroke="#c8902a" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M13 19 L19 13 L25 19 L19 25 Z" fill="#c8902a" fill-opacity=".18"/>
+                    <circle cx="19" cy="19" r="2" fill="#c8902a"/>
+                    <line x1="19" y1="21" x2="19" y2="28" stroke="#c8902a" stroke-width="1" stroke-opacity=".4"/>
+                </svg>
+                <div class="logo-copy">
+                    <span class="logo-name">SCP</span>
+                    <span class="logo-tagline">Lighting Design</span>
+                </div>
+            </a>
+
+            <button class="nav-burger" id="burger" aria-label="Menú" aria-expanded="false">
+                <span></span><span></span><span></span>
+            </button>
+
+            <ul class="nav-links" id="nav-links">
+                <li><a href="#servicios">Servicios</a></li>
+                <li><a href="#experiencia">Experiencia</a></li>
+                <li><a href="#precios">Precios</a></li>
+                <li><a href="#portafolio">Portafolio</a></li>
+                <li><a href="#contacto">Contacto</a></li>
+            </ul>
+
+            <a href="#contacto" class="nav-cta">Cotizar proyecto</a>
+        </div>
+    </div>
+</nav>
+
+<!-- ══ HERO ══ -->
+<section class="hero" id="inicio">
+    <div class="hero-bg"></div>
+    <div class="wrap">
+        <div class="hero-content">
+            <div class="eyebrow fi">Diseño Lumínico Industrial · Chile</div>
+            <h1 class="hero-title fi d1">
+                Diseñamos<br>
+                iluminación.<br>
+                <span class="dim">Tú potencias<br>tu operación.</span>
+            </h1>
+            <p class="hero-sub fi d2">
+                Asesoría experta en diseño lumínico para minería e industria.
+                Seguridad, eficiencia y precisión en cada proyecto.
+            </p>
+            <div class="hero-btns fi d3">
+                <a href="#contacto" class="btn-gold">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                    Solicitar asesoría
+                </a>
+                <a href="#servicios" class="btn-ghost">Ver servicios</a>
+            </div>
+        </div>
+    </div>
+    <div class="scroll-hint">
+        <div class="scroll-line"></div>
+        <span>Scroll</span>
+    </div>
+</section>
+
+<!-- ══ SERVICES ══ -->
+<section class="section services" id="servicios">
+    <div class="wrap">
+        <div class="services-head fi">
+            <div class="sec-label">Servicios</div>
+            <h2 class="sec-title">Soluciones lumínicas<br>de alto estándar técnico</h2>
+            <p class="sec-desc">Cada proyecto es abordado con metodología rigurosa, software especializado y más de 17 años de experiencia en terreno.</p>
+        </div>
+        <div class="services-grid">
+
+            <!-- Servicio 1 -->
+            <div class="svc-card fi">
+                <div class="svc-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/>
+                        <polyline points="3.27 6.96 12 12.01 20.73 6.96"/>
+                        <line x1="12" y1="22.08" x2="12" y2="12"/>
+                    </svg>
+                </div>
+                <div class="svc-num">01</div>
+                <h3 class="svc-name">Modelado 3D<br>de Recintos</h3>
+                <p class="svc-body">Construcción digital precisa del espacio a iluminar: geometría, superficies, reflexión y condiciones de entorno. Base técnica para una simulación confiable y documentable.</p>
+                <div class="svc-tags">
+                    <span class="tag">Dialux EVO</span>
+                    <span class="tag">Relux</span>
+                    <span class="tag">AutoCAD</span>
+                </div>
+            </div>
+
+            <!-- Servicio 2 -->
+            <div class="svc-card fi d1">
+                <div class="svc-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="3"/>
+                        <path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/>
+                    </svg>
+                </div>
+                <div class="svc-num">02</div>
+                <h3 class="svc-name">Cálculo Lumínico<br>y Simulación</h3>
+                <p class="svc-body">Simulación fotométrica con archivos reales de fabricantes. Análisis de uniformidad, niveles de iluminancia (lux), UGR y cumplimiento normativo NCh y DS 72.</p>
+                <div class="svc-tags">
+                    <span class="tag">Fotometría real</span>
+                    <span class="tag">Norma NCh</span>
+                    <span class="tag">DS 72 · SERNAGEOMIN</span>
+                </div>
+            </div>
+
+            <!-- Servicio 3 -->
+            <div class="svc-card fi d2">
+                <div class="svc-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
+                        <polyline points="14 2 14 8 20 8"/>
+                        <line x1="16" y1="13" x2="8" y2="13"/>
+                        <line x1="16" y1="17" x2="8" y2="17"/>
+                        <polyline points="10 9 9 9 8 9"/>
+                    </svg>
+                </div>
+                <div class="svc-num">03</div>
+                <h3 class="svc-name">Planos y<br>Especificaciones</h3>
+                <p class="svc-body">Entrega de planos de layout, ubicación exacta de luminarias, alturas de montaje y fichas técnicas listas para ingeniería de detalle, compras y puesta en marcha.</p>
+                <div class="svc-tags">
+                    <span class="tag">Layout</span>
+                    <span class="tag">Ubicación y montaje</span>
+                    <span class="tag">Especificación técnica</span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ══ EXPERIENCE ══ -->
+<section class="section experience" id="experiencia">
+    <div class="wrap">
+        <div class="exp-inner">
+
+            <!-- Stats -->
+            <div class="fi">
+                <div class="stats-grid">
+                    <div class="stat">
+                        <div class="stat-num">17</div>
+                        <div class="stat-lbl">años de<br>experiencia</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-num">+50</div>
+                        <div class="stat-lbl">proyectos<br>industriales</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-num">100%</div>
+                        <div class="stat-lbl">foco en minería<br>y gran industria</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-num">Norte</div>
+                        <div class="stat-lbl">Chile — cobertura<br>nacional</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Text -->
+            <div class="fi d1">
+                <div class="sec-label">Experiencia</div>
+                <h2 class="sec-title">Especializada en los<br>entornos más exigentes</h2>
+                <p class="exp-body">
+                    Sara Cisterna Placencia es proyectista en iluminación industrial con 17 años de trayectoria enfocados en el rubro minero chileno. Ha participado en proyectos de gran envergadura en las principales faenas del norte de Chile, desde etapas de ingeniería conceptual hasta puesta en marcha.
+                </p>
+                <p class="exp-body">
+                    Su trabajo combina rigor técnico, conocimiento profundo de normativa vigente y experiencia real en terreno — un diferencial clave para proyectos donde la seguridad y continuidad operacional no admiten margen de error.
+                </p>
+                <div class="chips">
+                    <div class="chip">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                        Minería
+                    </div>
+                    <div class="chip">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                        Plantas Industriales
+                    </div>
+                    <div class="chip">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+                        Energía
+                    </div>
+                    <div class="chip">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                        Infraestructura
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- ══ VALUE DIFFERENTIAL ══ -->
+<section class="section value" id="valor">
+    <div class="wrap">
+        <div class="value-head fi">
+            <div class="sec-label">Valor Diferencial</div>
+            <h2 class="sec-title">Por qué importa un<br>buen diseño lumínico</h2>
+        </div>
+        <div class="value-grid">
+
+            <div class="val-item fi">
+                <svg class="val-icon" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M22 6L6 16v20h12V26h8v10h12V16L22 6z" stroke="#c8902a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    <circle cx="22" cy="17" r="3" stroke="#c8902a" stroke-width="1.5"/>
+                </svg>
+                <h3 class="val-title">Seguridad Operacional</h3>
+                <p class="val-desc">Niveles correctos de iluminación reducen accidentes en faena, mejoran visibilidad en zonas críticas y cumplen DS 72 y normas NCh vigentes.</p>
+            </div>
+
+            <div class="val-item fi d1">
+                <svg class="val-icon" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M22 8v5M33.5 12.5l-3.5 3.5M38 22h-5M33.5 31.5l-3.5-3.5M22 36v-5M10.5 31.5l3.5-3.5M6 22h5M10.5 12.5l3.5 3.5" stroke="#c8902a" stroke-width="1.5" stroke-linecap="round"/>
+                    <circle cx="22" cy="22" r="5" stroke="#c8902a" stroke-width="1.5"/>
+                </svg>
+                <h3 class="val-title">Optimización Energética</h3>
+                <p class="val-desc">Un diseño preciso elimina la sobre-iluminación. Se selecciona la luminaria correcta para cada zona, reduciendo consumo sin sacrificar rendimiento.</p>
+            </div>
+
+            <div class="val-item fi d2">
+                <svg class="val-icon" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="6" y="6" width="32" height="32" rx="2" stroke="#c8902a" stroke-width="1.5"/>
+                    <path d="M10 30l8-10 6 6 6-10 6 8" stroke="#c8902a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <h3 class="val-title">Reducción de Costos</h3>
+                <p class="val-desc">Diseñar bien desde el inicio evita retrabajos en terreno, correcciones de ingeniería y compra de equipos incorrectos. Inversión que se recupera desde el primer proyecto.</p>
+            </div>
+
+            <div class="val-item fi d3">
+                <svg class="val-icon" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M22 8l4 12h12l-10 7 4 12-10-7-10 7 4-12L6 20h12z" stroke="#c8902a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <h3 class="val-title">Cumplimiento Normativo</h3>
+                <p class="val-desc">Cumplimiento de normas NCh, DS 72 (SERNAGEOMIN) y estándares internacionales. Documentación técnica lista para auditorías, permisos y fiscalizaciones.</p>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ══ PRICING ══ -->
+<section class="section pricing" id="precios">
+    <div class="wrap">
+        <div class="pricing-head fi">
+            <div class="sec-label">Tarifas Referenciales</div>
+            <h2 class="sec-title">Estructura de valores<br>por proyecto</h2>
+            <p class="sec-desc">Todos los valores en pesos chilenos (CLP). Cada proyecto incluye modelado 3D, cálculo lumínico y planos de especificación.</p>
+        </div>
+        <div class="pricing-grid">
+
+            <div class="price-card fi">
+                <span class="featured-badge">Más solicitado</span>
+                <div class="price-range">1 — 20 luminarias</div>
+                <div class="price-from">desde</div>
+                <div class="price-amount">$8.000 <span class="price-unit">CLP / ud.</span></div>
+                <div class="price-divider"></div>
+                <ul class="price-features">
+                    <li>Modelado 3D del recinto</li>
+                    <li>Cálculo lumínico y simulación</li>
+                    <li>Planos de layout y ubicación</li>
+                    <li>Alturas de montaje</li>
+                    <li>Especificación técnica de luminarias</li>
+                </ul>
+            </div>
+
+            <div class="price-card featured fi d1">
+                <span class="featured-badge">Más solicitado</span>
+                <div class="price-range">21 — 50 luminarias</div>
+                <div class="price-from">desde</div>
+                <div class="price-amount">$6.000 <span class="price-unit">CLP / ud.</span></div>
+                <div class="price-divider"></div>
+                <ul class="price-features">
+                    <li>Modelado 3D del recinto</li>
+                    <li>Cálculo lumínico y simulación</li>
+                    <li>Planos de layout y ubicación</li>
+                    <li>Alturas de montaje</li>
+                    <li>Especificación técnica de luminarias</li>
+                </ul>
+            </div>
+
+            <div class="price-card fi d2">
+                <span class="featured-badge">Más solicitado</span>
+                <div class="price-range">51 — 300 luminarias</div>
+                <div class="price-from">desde</div>
+                <div class="price-amount">$5.000 <span class="price-unit">CLP / ud.</span></div>
+                <div class="price-divider"></div>
+                <ul class="price-features">
+                    <li>Modelado 3D del recinto</li>
+                    <li>Cálculo lumínico y simulación</li>
+                    <li>Planos de layout y ubicación</li>
+                    <li>Alturas de montaje</li>
+                    <li>Especificación técnica de luminarias</li>
+                </ul>
+            </div>
+
+        </div>
+        <div class="pricing-note fi">
+            Valores referenciales. Cada proyecto es evaluado de manera personalizada según requerimientos técnicos, complejidad del recinto y alcance de entregables.
+        </div>
+    </div>
+</section>
+
+<!-- ══ PORTFOLIO ══ -->
+<section class="section portfolio" id="portafolio">
+    <div class="wrap">
+        <div class="port-head">
+            <div>
+                <div class="sec-label fi">Portafolio</div>
+                <h2 class="sec-title fi">Proyectos<br>destacados</h2>
+            </div>
+            <p class="sec-desc fi">Próximamente se publicarán proyectos representativos. Contáctenos para conocer casos de estudio específicos.</p>
+        </div>
+        <div class="port-grid">
+            <div class="port-item fi">
+                <div class="port-placeholder">
+                    <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1">
+                        <rect x="6" y="10" width="36" height="28" rx="2"/>
+                        <circle cx="16" cy="20" r="4"/>
+                        <path d="M6 30l10-8 8 6 6-4 12 10"/>
+                    </svg>
+                </div>
+                <div class="port-badge">Próximamente</div>
+            </div>
+            <div class="port-item fi d1">
+                <div class="port-placeholder"></div>
+                <div class="port-badge">Próximamente</div>
+            </div>
+            <div class="port-item fi d2">
+                <div class="port-placeholder"></div>
+                <div class="port-badge">Próximamente</div>
+            </div>
+            <div class="port-item fi d1">
+                <div class="port-placeholder"></div>
+                <div class="port-badge">Próximamente</div>
+            </div>
+            <div class="port-item fi d2">
+                <div class="port-placeholder"></div>
+                <div class="port-badge">Próximamente</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ══ CONTACT ══ -->
+<section class="section contact" id="contacto">
+    <div class="wrap">
+        <div class="contact-inner">
+
+            <div class="fi">
+                <div class="sec-label">Contacto</div>
+                <h2 class="sec-title">Conversemos<br>tu proyecto</h2>
+                <p class="contact-desc">
+                    ¿Tienes un proyecto de iluminación industrial en desarrollo? Cuéntanos el recinto, la cantidad estimada de luminarias y el alcance requerido. Respuesta en 24 horas hábiles.
+                </p>
+                <a href="https://wa.me/56999946117?text=Hola%20Sara%2C%20me%20gustar%C3%ADa%20consultar%20sobre%20un%20proyecto%20de%20iluminaci%C3%B3n%20industrial."
+                   class="wa-btn" target="_blank" rel="noopener noreferrer">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+                    </svg>
+                    Escríbenos por WhatsApp
+                </a>
+            </div>
+
+            <div class="fi d1">
+                <form class="form" id="contact-form" onsubmit="submitForm(event)">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="nombre">Nombre</label>
+                            <input type="text" id="nombre" name="nombre" placeholder="Tu nombre completo" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="empresa">Empresa</label>
+                            <input type="text" id="empresa" name="empresa" placeholder="Razón social o empresa">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="correo">Correo electrónico</label>
+                        <input type="email" id="correo" name="correo" placeholder="correo@empresa.cl" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="mensaje">Cuéntanos tu proyecto</label>
+                        <textarea id="mensaje" name="mensaje" placeholder="Describe el recinto, cantidad estimada de luminarias y el alcance que necesitas..." required></textarea>
+                    </div>
+                    <p class="form-note">* El envío automático estará activo próximamente. Por ahora contáctanos por WhatsApp.</p>
+                    <div>
+                        <button type="submit" class="btn-gold" id="submit-btn">
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+                            Enviar consulta
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- ══ FOOTER ══ -->
+<footer>
+    <div class="wrap">
+        <div class="footer-inner">
+            <div>
+                <a href="#inicio" class="logo">
+                    <svg class="logo-mark" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect x="3" y="3" width="32" height="32" stroke="#c8902a" stroke-width="1"/>
+                        <path d="M9 19 L19 9 L29 19" stroke="#c8902a" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M13 19 L19 13 L25 19 L19 25 Z" fill="#c8902a" fill-opacity=".18"/>
+                        <circle cx="19" cy="19" r="2" fill="#c8902a"/>
+                        <line x1="19" y1="21" x2="19" y2="28" stroke="#c8902a" stroke-width="1" stroke-opacity=".4"/>
+                    </svg>
+                    <div class="logo-copy">
+                        <span class="logo-name">SCP</span>
+                        <span class="logo-tagline">Lighting Design</span>
+                    </div>
+                </a>
+                <div class="footer-info">
+                    <strong>Sara Cisterna Placencia</strong>
+                    Proyectista en Iluminación Industrial<br>
+                    17 años de experiencia · Minería y Gran Industria
+                </div>
+            </div>
+            <div class="footer-right">
+                <div class="footer-info">
+                    <strong>Ubicación</strong>
+                    Chile
+                </div>
+                <div class="footer-info">
+                    <strong>WhatsApp</strong>
+                    +56 9 9994 6117
+                </div>
+                <div class="footer-copy">© 2025 SCP Lighting Design. Todos los derechos reservados.</div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script>
+    /* ── Nav scroll ── */
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => {
+        nav.classList.toggle('scrolled', window.scrollY > 50);
+    }, { passive: true });
+
+    /* ── Hamburger ── */
+    const burger   = document.getElementById('burger');
+    const navLinks = document.getElementById('nav-links');
+    burger.addEventListener('click', function () {
+        const open = navLinks.classList.toggle('open');
+        burger.classList.toggle('open', open);
+        burger.setAttribute('aria-expanded', open);
+    });
+    navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+        navLinks.classList.remove('open');
+        burger.classList.remove('open');
+        burger.setAttribute('aria-expanded', 'false');
+    }));
+
+    /* ── Progress bar ── */
+    const bar = document.getElementById('progress-bar');
+    window.addEventListener('scroll', () => {
+        const pct = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight) * 100;
+        bar.style.width = pct + '%';
+    }, { passive: true });
+
+    /* ── Fade-in on scroll ── */
+    const io = new IntersectionObserver(entries => {
+        entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+    document.querySelectorAll('.fi').forEach(el => io.observe(el));
+
+    /* Hero fires immediately */
+    document.querySelectorAll('.hero .fi').forEach((el, i) => {
+        setTimeout(() => el.classList.add('visible'), 80 + i * 140);
+    });
+
+    /* ── Contact form (visual only) ── */
+    function submitForm(e) {
+        e.preventDefault();
+        const btn = document.getElementById('submit-btn');
+        btn.innerHTML = '✓ &nbsp;Mensaje recibido';
+        btn.style.background = '#16a34a';
+        btn.disabled = true;
+        setTimeout(() => {
+            btn.innerHTML = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg> Enviar consulta';
+            btn.style.background = '';
+            btn.disabled = false;
+            e.target.reset();
+        }, 3500);
+    }
+</script>
+
+</body>
+</html>
