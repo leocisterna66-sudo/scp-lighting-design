@@ -53,6 +53,22 @@
         @media (min-width: 1024px) { .wrap { padding: 0 3rem; } }
 
         /* ══════════════════════════════════════
+           EFECTO LUMINARIA (cursor / touch)
+        ══════════════════════════════════════ */
+        #cursor-light {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 9990;
+            opacity: 0;
+            transition: opacity 1.4s ease;   /* apagado lento y suave */
+        }
+        #cursor-light.on {
+            opacity: 1;
+            transition: opacity 0.12s ease;  /* encendido casi instantáneo */
+        }
+
+        /* ══════════════════════════════════════
            SCROLL PROGRESS BAR
         ══════════════════════════════════════ */
         #progress-bar {
@@ -2019,6 +2035,9 @@
     </div>
 </footer>
 
+<!-- ══ EFECTO LUMINARIA ══ -->
+<div id="cursor-light"></div>
+
 <!-- ══ MENÚ FLOTANTE ══ -->
 <div class="fab-wrap" id="fabWrap">
 
@@ -2038,15 +2057,6 @@
             <a href="#evaluacion" class="fab-icon ev" aria-label="Evaluación" onclick="closeFab()">
                 <svg viewBox="0 0 24 24" fill="none" stroke="#060a10" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>
-                </svg>
-            </a>
-        </div>
-
-        <div class="fab-option">
-            <span class="fab-label">Formulario de contacto</span>
-            <a href="#contacto" class="fab-icon ct" aria-label="Contacto" onclick="closeFab()">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>
                 </svg>
             </a>
         </div>
@@ -2099,6 +2109,29 @@
     document.querySelectorAll('.hero .fi').forEach((el, i) => {
         setTimeout(() => el.classList.add('visible'), 80 + i * 140);
     });
+
+    /* ── Efecto luminaria ── */
+    const cursorLight = document.getElementById('cursor-light');
+    let lightTimer;
+
+    function shineLight(x, y) {
+        cursorLight.style.background = `radial-gradient(circle 320px at ${x}px ${y}px,
+            rgba(200,144,42,0.13) 0%,
+            rgba(200,144,42,0.05) 45%,
+            transparent 70%)`;
+        cursorLight.classList.add('on');
+        clearTimeout(lightTimer);
+        lightTimer = setTimeout(() => cursorLight.classList.remove('on'), 1000);
+    }
+
+    /* Desktop: mouse */
+    document.addEventListener('mousemove', e => shineLight(e.clientX, e.clientY));
+
+    /* Móvil: touch */
+    document.addEventListener('touchmove', e => {
+        const t = e.touches[0];
+        shineLight(t.clientX, t.clientY);
+    }, { passive: true });
 
     /* ── FAB menú flotante ── */
     const fabWrap = document.getElementById('fabWrap');
