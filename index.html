@@ -842,6 +842,184 @@
         .footer-copy { font-size: .72rem; color: var(--txt3); margin-top: .5rem; }
 
         /* ══════════════════════════════════════
+           DOLOR / PROBLEMA
+        ══════════════════════════════════════ */
+        .dolor { background: var(--bg2); position: relative; overflow: hidden; }
+        .dolor::before {
+            content: '';
+            position: absolute; inset: 0;
+            background: radial-gradient(ellipse 60% 80% at 100% 50%, rgba(200,144,42,.06) 0%, transparent 60%);
+        }
+        .dolor-inner {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 3.5rem;
+            position: relative;
+        }
+        @media (min-width: 1024px) {
+            .dolor-inner { grid-template-columns: 1fr 1fr; gap: 6rem; align-items: center; }
+        }
+        .dolor-question {
+            font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+            font-weight: 700;
+            line-height: 1.2;
+            letter-spacing: -.02em;
+            margin-bottom: 1.5rem;
+        }
+        .dolor-question span { color: var(--gold); }
+        .dolor-body {
+            font-size: .9rem;
+            color: var(--txt2);
+            line-height: 1.85;
+            font-weight: 300;
+            margin-bottom: 1rem;
+        }
+        .dolor-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: .75rem;
+            margin-top: 1.5rem;
+        }
+        .dolor-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: .75rem;
+            font-size: .86rem;
+            color: var(--txt2);
+            font-weight: 300;
+            line-height: 1.5;
+        }
+        .dolor-list li::before {
+            content: '';
+            flex-shrink: 0;
+            width: 6px; height: 6px;
+            border-radius: 50%;
+            background: var(--gold);
+            margin-top: .45rem;
+        }
+        .dolor-right {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5px;
+            background: var(--border);
+        }
+        .dolor-card {
+            background: var(--bg3);
+            padding: 1.75rem 2rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 1.25rem;
+            transition: background .3s;
+        }
+        .dolor-card:hover { background: var(--bg4); }
+        .dolor-card-icon {
+            width: 40px; height: 40px;
+            background: var(--gold-dim);
+            border: 1px solid var(--gold-border);
+            border-radius: 4px;
+            display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0;
+        }
+        .dolor-card-icon svg { width: 18px; height: 18px; color: var(--gold); }
+        .dolor-card-title { font-size: .92rem; font-weight: 600; margin-bottom: .3rem; }
+        .dolor-card-desc  { font-size: .82rem; color: var(--txt2); line-height: 1.6; font-weight: 300; }
+
+        /* ══════════════════════════════════════
+           TIPOS DE PROYECTO
+        ══════════════════════════════════════ */
+        .tipos { background: var(--bg); }
+        .tipos-head { margin-bottom: 3.5rem; }
+        .tipos-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5px;
+            background: var(--border);
+        }
+        @media (min-width: 640px)  { .tipos-grid { grid-template-columns: repeat(2,1fr); } }
+        @media (min-width: 1024px) { .tipos-grid { grid-template-columns: repeat(3,1fr); } }
+
+        .tipo-card {
+            background: var(--bg3);
+            padding: 2.5rem 2rem;
+            position: relative;
+            overflow: hidden;
+            transition: background .35s;
+        }
+        .tipo-card:hover { background: var(--bg4); }
+        .tipo-card::after {
+            content: '';
+            position: absolute; bottom: 0; left: 0; right: 0;
+            height: 2px;
+            background: var(--gold);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform .4s ease;
+        }
+        .tipo-card:hover::after { transform: scaleX(1); }
+        .tipo-icon {
+            width: 52px; height: 52px;
+            background: var(--gold-dim);
+            border: 1px solid var(--gold-border);
+            border-radius: 4px;
+            display: flex; align-items: center; justify-content: center;
+            margin-bottom: 1.75rem;
+        }
+        .tipo-icon svg { width: 24px; height: 24px; color: var(--gold); }
+        .tipo-name { font-size: 1.05rem; font-weight: 700; margin-bottom: .65rem; }
+        .tipo-desc { font-size: .85rem; color: var(--txt2); line-height: 1.75; font-weight: 300; }
+        .tipo-tags {
+            display: flex; flex-wrap: wrap; gap: .4rem;
+            margin-top: 1.25rem;
+        }
+
+        /* ══════════════════════════════════════
+           TESTIMONIOS
+        ══════════════════════════════════════ */
+        .testimonios { background: var(--bg2); }
+        .test-head { margin-bottom: 3.5rem; }
+        .test-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5px;
+            background: var(--border);
+        }
+        @media (min-width: 768px)  { .test-grid { grid-template-columns: repeat(2,1fr); } }
+        @media (min-width: 1024px) { .test-grid { grid-template-columns: repeat(3,1fr); } }
+
+        .test-card {
+            background: var(--bg3);
+            padding: 2.25rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            transition: background .3s;
+        }
+        .test-card:hover { background: var(--bg4); }
+        .test-quote-icon { color: var(--gold); opacity: .5; }
+        .test-body {
+            font-size: .9rem;
+            color: var(--txt2);
+            line-height: 1.85;
+            font-weight: 300;
+            font-style: italic;
+            flex: 1;
+        }
+        .test-footer {
+            border-top: 1px solid var(--border);
+            padding-top: 1.25rem;
+        }
+        .test-name { font-size: .88rem; font-weight: 600; margin-bottom: .2rem; }
+        .test-project { font-size: .75rem; color: var(--txt3); letter-spacing: .08em; text-transform: uppercase; }
+        .test-note {
+            margin-top: 2rem;
+            font-size: .78rem;
+            color: var(--txt3);
+            font-style: italic;
+            text-align: center;
+        }
+
+        /* ══════════════════════════════════════
            EVALUACIÓN
         ══════════════════════════════════════ */
         .evaluacion { background: var(--bg); }
@@ -1099,6 +1277,7 @@
 
             <ul class="nav-links" id="nav-links">
                 <li><a href="#servicios">Servicios</a></li>
+                <li><a href="#aplicaciones">Aplicaciones</a></li>
                 <li><a href="#proceso">Proceso</a></li>
                 <li><a href="#evaluacion">Evaluación</a></li>
                 <li><a href="#faq">FAQ</a></li>
@@ -1211,6 +1390,129 @@
         </div>
     </div>
 </section>
+
+<!-- ══ DOLOR / PROBLEMA ══ -->
+<section class="section dolor" id="problema">
+    <div class="wrap">
+        <div class="dolor-inner">
+            <div class="fi">
+                <div class="sec-label">El problema</div>
+                <h2 class="dolor-question">¿No sabes cómo elegir la <span>iluminación correcta</span> para tu proyecto?</h2>
+                <p class="dolor-body">Definir la iluminación de un recinto industrial sin respaldo técnico es un riesgo real. Una luminaria incorrecta puede generar incumplimiento normativo, accidentes en faena o retrabajos costosos que se descubren recién en la puesta en marcha.</p>
+                <p class="dolor-body">En SCP Lighting Design definimos la solución más adecuada para cada proyecto, considerando la aplicación, el entorno, la normativa vigente y el presupuesto — antes de que compres o instales cualquier equipo.</p>
+                <ul class="dolor-list">
+                    <li>Evitamos sobrecostos por selección incorrecta de luminarias</li>
+                    <li>Prevenimos incumplimientos del DS 72 de SERNAGEOMIN</li>
+                    <li>Eliminamos problemas de seguridad por bajo rendimiento lumínico</li>
+                    <li>Reducimos retrabajos en terreno con un diseño correcto desde el inicio</li>
+                </ul>
+            </div>
+            <div class="dolor-right fi d1">
+                <div class="dolor-card">
+                    <div class="dolor-card-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+                    </div>
+                    <div>
+                        <div class="dolor-card-title">Selección de luminaria correcta</div>
+                        <div class="dolor-card-desc">Asesoramos en la elección del equipo adecuado según la altura, superficie, tipo de operación y condiciones del entorno.</div>
+                    </div>
+                </div>
+                <div class="dolor-card">
+                    <div class="dolor-card-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                    </div>
+                    <div>
+                        <div class="dolor-card-title">Cumplimiento DS 72 · SERNAGEOMIN</div>
+                        <div class="dolor-card-desc">Verificamos el cumplimiento normativo en cada diseño: iluminancias, uniformidad y UGR para cada zona de la faena.</div>
+                    </div>
+                </div>
+                <div class="dolor-card">
+                    <div class="dolor-card-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+                    </div>
+                    <div>
+                        <div class="dolor-card-title">Respaldo técnico profesional</div>
+                        <div class="dolor-card-desc">17 años de experiencia en minería chilena respaldan cada recomendación. No teórica — experiencia real en terreno.</div>
+                    </div>
+                </div>
+                <div class="dolor-card">
+                    <div class="dolor-card-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+                    </div>
+                    <div>
+                        <div class="dolor-card-title">Optimización de presupuesto</div>
+                        <div class="dolor-card-desc">Un diseño preciso evita comprar más luminarias de las necesarias o equipos sobredimensionados que encarecen el proyecto.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ══ TIPOS DE PROYECTO ══ -->
+<section class="section tipos" id="aplicaciones">
+    <div class="wrap">
+        <div class="tipos-head fi">
+            <div class="sec-label">Aplicaciones</div>
+            <h2 class="sec-title">Tipos de proyecto<br>que evaluamos</h2>
+            <p class="sec-desc">Trabajamos con proyectos que requieren análisis técnico riguroso en distintos entornos industriales y mineros.</p>
+        </div>
+        <div class="tipos-grid">
+
+            <div class="tipo-card fi">
+                <div class="tipo-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                    </svg>
+                </div>
+                <h3 class="tipo-name">Faena / Minería</h3>
+                <p class="tipo-desc">Diseño lumínico para operaciones mineras a cielo abierto y subterráneas. Frentes de trabajo, rampas, botaderos, áreas de chancado y zonas de tránsito en turnos nocturnos.</p>
+                <div class="tipo-tags">
+                    <span class="tag">DS 72 · SERNAGEOMIN</span>
+                    <span class="tag">Turno nocturno</span>
+                </div>
+            </div>
+
+            <div class="tipo-card fi d1">
+                <div class="tipo-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="2" y="3" width="20" height="14" rx="2"/>
+                        <line x1="8" y1="21" x2="16" y2="21"/>
+                        <line x1="12" y1="17" x2="12" y2="21"/>
+                    </svg>
+                </div>
+                <h3 class="tipo-name">Obra / Exterior Industrial</h3>
+                <p class="tipo-desc">Plantas de procesamiento, bodegas industriales, patios de maniobra y espacios abiertos. Evaluación técnica para entornos con exigencias de seguridad operacional.</p>
+                <div class="tipo-tags">
+                    <span class="tag">Plantas</span>
+                    <span class="tag">Bodegas</span>
+                    <span class="tag">Patios</span>
+                </div>
+            </div>
+
+            <div class="tipo-card fi d2">
+                <div class="tipo-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+                        <polyline points="9 22 9 12 15 12 15 22"/>
+                    </svg>
+                </div>
+                <h3 class="tipo-name">Vialidad e Infraestructura</h3>
+                <p class="tipo-desc">Caminos interiores de faena, accesos industriales, estacionamientos y zonas de circulación. Diseño orientado a visibilidad, seguridad vial y eficiencia energética.</p>
+                <div class="tipo-tags">
+                    <span class="tag">Caminos</span>
+                    <span class="tag">Accesos</span>
+                    <span class="tag">Circulación</span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<div class="divider"></div>
 
 <!-- ══ PROCESO ══ -->
 <section class="section proceso" id="proceso">
@@ -1353,6 +1655,49 @@
             </div>
 
         </div>
+    </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ══ TESTIMONIOS ══ -->
+<section class="section testimonios" id="testimonios">
+    <div class="wrap">
+        <div class="test-head fi">
+            <div class="sec-label">Testimonios</div>
+            <h2 class="sec-title">Lo que dicen<br>nuestros clientes</h2>
+        </div>
+        <div class="test-grid">
+
+            <div class="test-card fi">
+                <svg class="test-quote-icon" width="32" height="32" viewBox="0 0 24 24" fill="currentColor"><path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z"/></svg>
+                <p class="test-body">"El diseño lumínico entregado fue determinante para nuestra ingeniería de detalle. Los planos y especificaciones llegaron listos para compras, sin ambigüedades. Eso no es común en este tipo de servicio."</p>
+                <div class="test-footer">
+                    <div class="test-name">Jefe de Proyectos</div>
+                    <div class="test-project">Proyecto Minero · Región de Antofagasta</div>
+                </div>
+            </div>
+
+            <div class="test-card fi d1">
+                <svg class="test-quote-icon" width="32" height="32" viewBox="0 0 24 24" fill="currentColor"><path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z"/></svg>
+                <p class="test-body">"Nos ayudó a identificar que estábamos sobredimensionando la instalación. Con el cálculo correcto redujimos la cantidad de luminarias sin afectar los niveles requeridos. El ahorro fue significativo."</p>
+                <div class="test-footer">
+                    <div class="test-name">Supervisor de Operaciones</div>
+                    <div class="test-project">Planta Industrial · Región de Atacama</div>
+                </div>
+            </div>
+
+            <div class="test-card fi d2">
+                <svg class="test-quote-icon" width="32" height="32" viewBox="0 0 24 24" fill="currentColor"><path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z"/></svg>
+                <p class="test-body">"Lo que más valoré fue el conocimiento real de terreno. No fue solo una simulación en pantalla — entendió las condiciones operacionales de la faena y eso se reflejó en un diseño que funcionó desde el primer día."</p>
+                <div class="test-footer">
+                    <div class="test-name">Ingeniero de Terreno</div>
+                    <div class="test-project">Faena Minera · Norte de Chile</div>
+                </div>
+            </div>
+
+        </div>
+        <p class="test-note">* Testimonios referenciales. Próximamente se publicarán reseñas de clientes reales.</p>
     </div>
 </section>
 
