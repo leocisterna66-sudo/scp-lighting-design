@@ -2115,10 +2115,11 @@
     let lightTimer;
 
     function shineLight(x, y) {
-        cursorLight.style.background = `radial-gradient(circle 320px at ${x}px ${y}px,
-            rgba(200,144,42,0.13) 0%,
-            rgba(200,144,42,0.05) 45%,
-            transparent 70%)`;
+        cursorLight.style.background = `radial-gradient(circle 160px at ${x}px ${y}px,
+            rgba(200,144,42,0.28) 0%,
+            rgba(200,144,42,0.10) 35%,
+            rgba(200,144,42,0.02) 65%,
+            transparent 100%)`;
         cursorLight.classList.add('on');
         clearTimeout(lightTimer);
         lightTimer = setTimeout(() => cursorLight.classList.remove('on'), 1000);
