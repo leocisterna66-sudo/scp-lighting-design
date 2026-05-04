@@ -842,6 +842,55 @@
         .footer-copy { font-size: .72rem; color: var(--txt3); margin-top: .5rem; }
 
         /* ══════════════════════════════════════
+           EVALUACIÓN
+        ══════════════════════════════════════ */
+        .evaluacion { background: var(--bg); }
+
+        .eval-inner {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 4rem;
+        }
+        @media (min-width: 1024px) {
+            .eval-inner { grid-template-columns: 1fr 1fr; align-items: center; gap: 6rem; }
+        }
+
+        .eval-desc {
+            font-size: .9rem;
+            color: var(--txt2);
+            line-height: 1.85;
+            font-weight: 300;
+            margin-bottom: 1rem;
+        }
+        .eval-btns {
+            display: flex;
+            flex-direction: column;
+            gap: .875rem;
+            align-items: flex-start;
+            margin-top: 2rem;
+        }
+        @media (min-width: 480px) { .eval-btns { flex-direction: row; flex-wrap: wrap; } }
+
+        .eval-cards {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5px;
+            background: var(--border);
+        }
+        .eval-card {
+            display: flex;
+            align-items: flex-start;
+            gap: 1.25rem;
+            padding: 1.75rem 2rem;
+            background: var(--bg3);
+            transition: background .3s;
+        }
+        .eval-card:hover { background: var(--bg4); }
+        .eval-card svg { color: var(--gold); flex-shrink: 0; margin-top: 2px; }
+        .eval-card-title { font-size: .92rem; font-weight: 600; margin-bottom: .35rem; }
+        .eval-card-desc  { font-size: .82rem; color: var(--txt2); line-height: 1.65; font-weight: 300; }
+
+        /* ══════════════════════════════════════
            PROCESO
         ══════════════════════════════════════ */
         .proceso { background: var(--bg); }
@@ -943,6 +992,70 @@
         }
 
         /* ══════════════════════════════════════
+           WHATSAPP FLOTANTE
+        ══════════════════════════════════════ */
+        .wa-float {
+            position: fixed;
+            bottom: 1.75rem;
+            right: 1.75rem;
+            z-index: 800;
+            display: flex;
+            align-items: center;
+            gap: .75rem;
+        }
+        .wa-float-label {
+            background: var(--bg3);
+            color: var(--txt);
+            font-size: .78rem;
+            font-weight: 500;
+            padding: .5rem 1rem;
+            border-radius: 2rem;
+            border: 1px solid var(--border);
+            white-space: nowrap;
+            opacity: 0;
+            transform: translateX(10px);
+            transition: all .3s ease;
+            pointer-events: none;
+        }
+        .wa-float:hover .wa-float-label {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        .wa-float-btn {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: #25D366;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 20px rgba(37,211,102,.35);
+            transition: all .3s ease;
+            flex-shrink: 0;
+        }
+        .wa-float-btn:hover {
+            background: #1db954;
+            transform: scale(1.08);
+            box-shadow: 0 6px 28px rgba(37,211,102,.45);
+        }
+        .wa-float-btn svg { width: 28px; height: 28px; }
+
+        /* Pulso animado */
+        .wa-float-btn::before {
+            content: '';
+            position: absolute;
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: rgba(37,211,102,.3);
+            animation: wa-pulse 2.5s ease-out infinite;
+        }
+        @keyframes wa-pulse {
+            0%   { transform: scale(1);   opacity: .7; }
+            100% { transform: scale(1.8); opacity: 0;  }
+        }
+
+        /* ══════════════════════════════════════
            ANIMATIONS
         ══════════════════════════════════════ */
         .fi {
@@ -987,7 +1100,7 @@
             <ul class="nav-links" id="nav-links">
                 <li><a href="#servicios">Servicios</a></li>
                 <li><a href="#proceso">Proceso</a></li>
-                <li><a href="#precios">Precios</a></li>
+                <li><a href="#evaluacion">Evaluación</a></li>
                 <li><a href="#faq">FAQ</a></li>
                 <li><a href="#contacto">Contacto</a></li>
             </ul>
@@ -1245,64 +1358,56 @@
 
 <div class="divider"></div>
 
-<!-- ══ PRICING ══ -->
-<section class="section pricing" id="precios">
+<!-- ══ EVALUACIÓN ══ -->
+<section class="section evaluacion" id="evaluacion">
     <div class="wrap">
-        <div class="pricing-head fi">
-            <div class="sec-label">Tarifas Referenciales</div>
-            <h2 class="sec-title">Estructura de valores<br>por proyecto</h2>
-            <p class="sec-desc">Todos los valores en pesos chilenos (CLP). Cada proyecto incluye modelado 3D, cálculo lumínico y planos de especificación.</p>
-        </div>
-        <div class="pricing-grid">
-
-            <div class="price-card fi">
-                <span class="featured-badge">Más solicitado</span>
-                <div class="price-range">1 — 20 luminarias</div>
-                <div class="price-from">desde</div>
-                <div class="price-amount">$8.000 <span class="price-unit">CLP / ud.</span></div>
-                <div class="price-divider"></div>
-                <ul class="price-features">
-                    <li>Modelado 3D del recinto</li>
-                    <li>Cálculo lumínico y simulación</li>
-                    <li>Planos de layout y ubicación</li>
-                    <li>Alturas de montaje</li>
-                    <li>Especificación técnica de luminarias</li>
-                </ul>
+        <div class="eval-inner fi">
+            <div class="eval-text">
+                <div class="sec-label">Evaluación de Proyecto</div>
+                <h2 class="sec-title">Cada proyecto es único.<br>Evaluamos el tuyo.</h2>
+                <p class="eval-desc">No trabajamos con tarifas fijas porque cada recinto industrial tiene sus propias exigencias técnicas, normativas y condiciones de entorno. Antes de cualquier cotización, realizamos una evaluación personalizada de tu proyecto.</p>
+                <p class="eval-desc">Cuéntanos el tipo de recinto, la cantidad estimada de luminarias y el contexto operacional. Con esa información te entregamos un alcance técnico claro y una propuesta ajustada a tu realidad.</p>
+                <div class="eval-btns">
+                    <a href="#contacto" class="btn-gold">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                        Solicitar evaluación
+                    </a>
+                    <a href="https://wa.me/56999946117?text=Hola%20Sara%2C%20me%20gustar%C3%ADa%20evaluar%20mi%20proyecto%20de%20iluminaci%C3%B3n." class="btn-ghost" target="_blank" rel="noopener">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                        Consultar por WhatsApp
+                    </a>
+                </div>
             </div>
-
-            <div class="price-card featured fi d1">
-                <span class="featured-badge">Más solicitado</span>
-                <div class="price-range">21 — 50 luminarias</div>
-                <div class="price-from">desde</div>
-                <div class="price-amount">$6.000 <span class="price-unit">CLP / ud.</span></div>
-                <div class="price-divider"></div>
-                <ul class="price-features">
-                    <li>Modelado 3D del recinto</li>
-                    <li>Cálculo lumínico y simulación</li>
-                    <li>Planos de layout y ubicación</li>
-                    <li>Alturas de montaje</li>
-                    <li>Especificación técnica de luminarias</li>
-                </ul>
+            <div class="eval-cards">
+                <div class="eval-card">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                    <div>
+                        <div class="eval-card-title">Análisis del recinto</div>
+                        <div class="eval-card-desc">Revisamos geometría, tipo de operación, condiciones de entorno y normativa aplicable.</div>
+                    </div>
+                </div>
+                <div class="eval-card">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+                    <div>
+                        <div class="eval-card-title">Alcance técnico claro</div>
+                        <div class="eval-card-desc">Definimos qué incluye el diseño, qué entregables se generan y cuánto tiempo toma.</div>
+                    </div>
+                </div>
+                <div class="eval-card">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+                    <div>
+                        <div class="eval-card-title">Propuesta personalizada</div>
+                        <div class="eval-card-desc">El valor se define según la complejidad real del proyecto, sin tarifas genéricas.</div>
+                    </div>
+                </div>
+                <div class="eval-card">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                    <div>
+                        <div class="eval-card-title">Respuesta en 24 hrs</div>
+                        <div class="eval-card-desc">Sara revisa cada consulta personalmente y responde dentro de las siguientes 24 horas hábiles.</div>
+                    </div>
+                </div>
             </div>
-
-            <div class="price-card fi d2">
-                <span class="featured-badge">Más solicitado</span>
-                <div class="price-range">51 — 300 luminarias</div>
-                <div class="price-from">desde</div>
-                <div class="price-amount">$5.000 <span class="price-unit">CLP / ud.</span></div>
-                <div class="price-divider"></div>
-                <ul class="price-features">
-                    <li>Modelado 3D del recinto</li>
-                    <li>Cálculo lumínico y simulación</li>
-                    <li>Planos de layout y ubicación</li>
-                    <li>Alturas de montaje</li>
-                    <li>Especificación técnica de luminarias</li>
-                </ul>
-            </div>
-
-        </div>
-        <div class="pricing-note fi">
-            Valores referenciales. Cada proyecto es evaluado de manera personalizada según requerimientos técnicos, complejidad del recinto y alcance de entregables.
         </div>
     </div>
 </section>
@@ -1524,6 +1629,17 @@
         </div>
     </div>
 </footer>
+
+<!-- ══ WHATSAPP FLOTANTE ══ -->
+<a href="https://wa.me/56999946117?text=Hola%20Sara%2C%20me%20gustar%C3%ADa%20evaluar%20mi%20proyecto%20de%20iluminaci%C3%B3n%20industrial."
+   class="wa-float" target="_blank" rel="noopener noreferrer" aria-label="Contactar por WhatsApp">
+    <span class="wa-float-label">¿Hablamos de tu proyecto?</span>
+    <div class="wa-float-btn">
+        <svg viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+        </svg>
+    </div>
+</a>
 
 <script>
     /* ── Nav scroll ── */
