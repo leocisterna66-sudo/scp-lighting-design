@@ -1170,67 +1170,105 @@
         }
 
         /* ══════════════════════════════════════
-           WHATSAPP FLOTANTE
+           MENÚ FLOTANTE
         ══════════════════════════════════════ */
-        .wa-float {
+        .fab-wrap {
             position: fixed;
             bottom: 1.75rem;
             right: 1.75rem;
             z-index: 800;
             display: flex;
-            align-items: center;
+            flex-direction: column;
+            align-items: flex-end;
             gap: .75rem;
         }
-        .wa-float-label {
+
+        /* Opciones del menú */
+        .fab-options {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: .65rem;
+            pointer-events: none;
+        }
+        .fab-option {
+            display: flex;
+            align-items: center;
+            gap: .75rem;
+            opacity: 0;
+            transform: translateY(12px) scale(.92);
+            transition: opacity .25s ease, transform .25s ease;
+            text-decoration: none;
+            pointer-events: none;
+        }
+        .fab-option:nth-child(1) { transition-delay: .05s; }
+        .fab-option:nth-child(2) { transition-delay: .1s;  }
+        .fab-option:nth-child(3) { transition-delay: .15s; }
+
+        .fab-wrap.open .fab-options { pointer-events: all; }
+        .fab-wrap.open .fab-option {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            pointer-events: all;
+        }
+
+        .fab-label {
             background: var(--bg3);
             color: var(--txt);
-            font-size: .78rem;
+            font-size: .76rem;
             font-weight: 500;
-            padding: .5rem 1rem;
+            padding: .45rem 1rem;
             border-radius: 2rem;
             border: 1px solid var(--border);
             white-space: nowrap;
-            opacity: 0;
-            transform: translateX(10px);
-            transition: all .3s ease;
-            pointer-events: none;
+            box-shadow: 0 2px 12px rgba(0,0,0,.3);
         }
-        .wa-float:hover .wa-float-label {
-            opacity: 1;
-            transform: translateX(0);
-        }
-        .wa-float-btn {
-            width: 56px;
-            height: 56px;
+
+        .fab-icon {
+            width: 44px; height: 44px;
             border-radius: 50%;
-            background: #25D366;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 4px 20px rgba(37,211,102,.35);
-            transition: all .3s ease;
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 3px 14px rgba(0,0,0,.25);
+            transition: transform .2s ease;
             flex-shrink: 0;
         }
-        .wa-float-btn:hover {
-            background: #1db954;
-            transform: scale(1.08);
-            box-shadow: 0 6px 28px rgba(37,211,102,.45);
-        }
-        .wa-float-btn svg { width: 28px; height: 28px; }
+        .fab-icon:hover { transform: scale(1.1); }
+        .fab-icon svg { width: 20px; height: 20px; }
 
-        /* Pulso animado */
-        .wa-float-btn::before {
+        .fab-icon.wa  { background: #25D366; }
+        .fab-icon.ev  { background: var(--gold); }
+        .fab-icon.ct  { background: var(--bg4); border: 1px solid var(--border); }
+
+        /* Botón principal */
+        .fab-main {
+            position: relative;
+            width: 56px; height: 56px;
+            border-radius: 50%;
+            background: #25D366;
+            border: none;
+            cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 4px 20px rgba(37,211,102,.35);
+            transition: all .3s ease;
+        }
+        .fab-main:hover { background: #1db954; transform: scale(1.06); }
+        .fab-main svg  { width: 26px; height: 26px; transition: transform .35s ease; }
+        .fab-wrap.open .fab-main { background: var(--bg3); box-shadow: 0 4px 20px rgba(0,0,0,.3); }
+        .fab-wrap.open .fab-main svg { transform: rotate(45deg); }
+
+        /* Pulso */
+        .fab-main::before {
             content: '';
             position: absolute;
-            width: 56px;
-            height: 56px;
+            width: 56px; height: 56px;
             border-radius: 50%;
-            background: rgba(37,211,102,.3);
-            animation: wa-pulse 2.5s ease-out infinite;
+            background: rgba(37,211,102,.28);
+            animation: fab-pulse 2.5s ease-out infinite;
         }
-        @keyframes wa-pulse {
+        .fab-wrap.open .fab-main::before { animation: none; opacity: 0; }
+        @keyframes fab-pulse {
             0%   { transform: scale(1);   opacity: .7; }
-            100% { transform: scale(1.8); opacity: 0;  }
+            100% { transform: scale(1.85); opacity: 0; }
         }
 
         /* ══════════════════════════════════════
@@ -1981,16 +2019,46 @@
     </div>
 </footer>
 
-<!-- ══ WHATSAPP FLOTANTE ══ -->
-<a href="https://wa.me/56999946117?text=Hola%20Sara%2C%20me%20gustar%C3%ADa%20evaluar%20mi%20proyecto%20de%20iluminaci%C3%B3n%20industrial."
-   class="wa-float" target="_blank" rel="noopener noreferrer" aria-label="Contactar por WhatsApp">
-    <span class="wa-float-label">¿Hablamos de tu proyecto?</span>
-    <div class="wa-float-btn">
-        <svg viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
-            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
-        </svg>
+<!-- ══ MENÚ FLOTANTE ══ -->
+<div class="fab-wrap" id="fabWrap">
+
+    <!-- Opciones desplegables -->
+    <div class="fab-options">
+
+        <div class="fab-option">
+            <span class="fab-label">WhatsApp directo</span>
+            <a href="https://wa.me/56999946117?text=Hola%20Sara%2C%20me%20gustar%C3%ADa%20consultar%20sobre%20un%20proyecto%20de%20iluminaci%C3%B3n%20industrial."
+               target="_blank" rel="noopener noreferrer" class="fab-icon wa" aria-label="WhatsApp">
+                <svg viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            </a>
+        </div>
+
+        <div class="fab-option">
+            <span class="fab-label">Solicitar evaluación</span>
+            <a href="#evaluacion" class="fab-icon ev" aria-label="Evaluación" onclick="closeFab()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="#060a10" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>
+                </svg>
+            </a>
+        </div>
+
+        <div class="fab-option">
+            <span class="fab-label">Formulario de contacto</span>
+            <a href="#contacto" class="fab-icon ct" aria-label="Contacto" onclick="closeFab()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>
+                </svg>
+            </a>
+        </div>
+
     </div>
-</a>
+
+    <!-- Botón principal -->
+    <button class="fab-main" id="fabMain" aria-label="Menú de contacto" aria-expanded="false">
+        <svg viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+    </button>
+
+</div>
 
 <script>
     /* ── Nav scroll ── */
@@ -2031,6 +2099,25 @@
     document.querySelectorAll('.hero .fi').forEach((el, i) => {
         setTimeout(() => el.classList.add('visible'), 80 + i * 140);
     });
+
+    /* ── FAB menú flotante ── */
+    const fabWrap = document.getElementById('fabWrap');
+    const fabMain = document.getElementById('fabMain');
+
+    fabMain.addEventListener('click', () => {
+        const open = fabWrap.classList.toggle('open');
+        fabMain.setAttribute('aria-expanded', open);
+    });
+
+    // Cerrar al hacer clic fuera
+    document.addEventListener('click', e => {
+        if (!fabWrap.contains(e.target)) closeFab();
+    });
+
+    function closeFab() {
+        fabWrap.classList.remove('open');
+        fabMain.setAttribute('aria-expanded', 'false');
+    }
 
     /* ── FAQ accordion ── */
     function toggleFaq(btn) {
